@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+        }
+        .container {
+            width: 80%;
+            margin: auto;
+            overflow: hidden;
+        }
+        header {
+            background: #35424a;
+            color: #ffffff;
+            padding-top: 30px;
+            min-height: 70px;
+            border-bottom: #e8491d 3px solid;
+        }
+        header a {
+            color: #ffffff;
+            text-decoration: none;
+            text-transform: uppercase;
+            font-size: 16px;
+        }
+        header ul {
+            padding: 0;
+            list-style: none;
+        }
+        header li {
+            float: right;
+            display: inline;
+            padding: 0 20px 0 20px;
+        }
+        header #branding {
+            float: left;
+        }
+        header #branding h1 {
+            margin: 0;
+        }
+        section {
+            padding: 20px;
+            background: #ffffff;
+            color: #333333;
+            margin-top: 10px;
+        }
+        .qr-code {
+            max-width: 150px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div id="branding">
+                <h1>Payment</h1>
+            </div>
+        </div>
+    </header>
+
+    <section class="container">
+        <h2>Payment Details</h2>
+        <div id="payment-info"></div>
+        <img id="qr-code" class="qr-code" src="payment-qr-code.png" alt="QR Code">
+    </section>
+
+    <footer>
+        <p>Online Shop &copy; 2024</p>
+    </footer>
+
+    <script>
+        function getQueryParams() {
+            let params = {};
+            let queryString = window.location.search.substring(1);
+            let regex = /([^&=]+)=([^&]*)/g;
+            let m;
+            while (m = regex.exec(queryString)) {
+                params[decodeURIComponent(m[1])] = decodeURIComponent(m[2]);
+            }
+            return params;
+        }
+
+        window.onload = function() {
+            let params = getQueryParams();
+            let paymentInfoDiv = document.getElementById('payment-info');
+            if (params.product === 'google') {
+                paymentInfoDiv.innerHTML = `<p>Product: Google Account</p><p>Price: 10元</p><p>Remarks: ${params.remarks}</p>`;
+            } else if (params.product === 'apple') {
+                paymentInfoDiv.innerHTML = `<p>Product: Apple ID (Nigeria)</p><p>Price: 50元</p><p>Remarks: ${params.remarks}</p>`;
+            }
+        }
+    </script>
+</body>
+</html>
