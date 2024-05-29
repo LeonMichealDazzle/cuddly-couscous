@@ -73,11 +73,6 @@
         .product-item p {
             margin: 0;
         }
-        .qr-code {
-            max-width: 150px;
-            margin-top: 10px;
-            display: none;
-        }
         .buy-button {
             background-color: #e8491d;
             color: #ffffff;
@@ -106,15 +101,13 @@
                 <h3>Google Account</h3>
                 <p>Price: 10元 each</p>
                 <textarea class="remarks" id="google-remarks" placeholder="Add your remarks here"></textarea>
-                <button class="buy-button" onclick="showQRCode('google')">Buy Now</button>
-                <img src="google-account-qr-code.png" alt="Google Account QR Code" class="qr-code" id="google-qr">
+                <button class="buy-button" onclick="buyNow('google')">Buy Now</button>
             </li>
             <li class="product-item">
                 <h3>Apple ID (Nigeria)</h3>
                 <p>Price: 50元 each</p>
                 <textarea class="remarks" id="apple-remarks" placeholder="Add your remarks here"></textarea>
-                <button class="buy-button" onclick="showQRCode('apple')">Buy Now</button>
-                <img src="apple-id-qr-code.png" alt="Apple ID QR Code" class="qr-code" id="apple-qr">
+                <button class="buy-button" onclick="buyNow('apple')">Buy Now</button>
             </li>
         </ul>
     </section>
@@ -124,31 +117,14 @@
     </footer>
 
     <script>
-        function showQRCode(product) {
-            let remarks;
+        function buyNow(product) {
+            let remarks = '';
             if (product === 'google') {
-                document.getElementById('google-qr').style.display = 'block';
-                document.getElementById('apple-qr').style.display = 'none';
                 remarks = document.getElementById('google-remarks').value;
             } else if (product === 'apple') {
-                document.getElementById('apple-qr').style.display = 'block';
-                document.getElementById('google-qr').style.display = 'none';
                 remarks = document.getElementById('apple-remarks').value;
             }
-
-            fetch('/api/fulfill-order', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    product: product,
-                    remarks: remarks
-                })
-            }).then(response => response.json())
-              .then(data => {
-                  console.log('Order fulfilled:', data);
-              });
+            window.location.href = 'payment.html?product=' + product + '&remarks=' + encodeURIComponent(remarks);
         }
     </script>
 </body>
